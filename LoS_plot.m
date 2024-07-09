@@ -19,8 +19,8 @@ wd = 1/100; ld = 1/100;
 A_PD = wd*ld;
 angle_PD = [pd_polar,pd_zai];
 
-xd_save = 1:2:7;
-yd_save = 1:2:7;
+xd_save = 1:0.5:7;
+yd_save = 1:0.5:7;
 p_LoS_save = [];
 for i = 1:length(xd_save)
     xd = xd_save(i);
