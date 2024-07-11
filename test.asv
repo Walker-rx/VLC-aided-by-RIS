@@ -1,0 +1,9 @@
+% clear 
+% close all
+
+
+[C,h]=contourf(X,Y,Z_diff);
+lines = get(h,'Children');
+for i = 1:numel(lines)
+    levels = get(lines(i),'LevelList');
+    min_level = min(le);
