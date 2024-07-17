@@ -25,7 +25,7 @@ A_PD = wd*ld;
 angle_PD = [pd_polar,pd_zai];
 
 wm = 4/100; hm = 4/100; delta_wm = 1/2*wm; delta_hm = 1/2*hm;
-xr = 1;   zr = 1.5;
+xr = 1;   zr = 1.5; yr = 1;
 total_length = 7-xr;  total_hight = 2.5-zr;
 max_k = total_hight/hm;    max_l=total_length/wm;
 
@@ -45,7 +45,8 @@ RIS_z = zr+hm/2:(hm+delta_hm):zr+hm/2+(k-1)*(hm+delta_hm);
 
 xd_save = 1:0.5:7;
 yd_save = 1:0.5:7;
-xd_for_plot = 9;  zd_for_plot = 9;
+xd_for_plot = 9;  yd_for_plot = 9;
+xd_for_plot_xz_oppostie = 9;  yd_for_plot_xz_oppostie = 9;
 p_LoS_save = [];
 p_NLoS_save = [];
 rate_LoS_save = [];
@@ -66,6 +67,18 @@ for i = 1:length(xd_save)
         eval(strcat(str_x_unuse+'=[];'));
         str_z_unuse=strcat('RIS_z_unuse_'+string(i)+'_'+string(j));
         eval(strcat(str_z_unuse+'=[];'));
+        
+        str_diff_xz_oppostie=strcat('diff_xz_oppostie_'+string(i)+'_'+string(j));
+        eval(strcat(str_diff_xz_oppostie+'=[];'));
+        str_x_use_xz_oppostie=strcat('RIS_x_use_xz_oppostie_'+string(i)+'_'+string(j));
+        eval(strcat(str_x_use_xz_oppostie+'=[];'));
+        str_z_use_xz_oppostie=strcat('RIS_z_use_xz_oppostie_'+string(i)+'_'+string(j));
+        eval(strcat(str_z_use_xz_oppostie+'=[];'));
+        str_x_unuse_xz_oppostie=strcat('RIS_x_unuse_xz_oppostie_'+string(i)+'_'+string(j));
+        eval(strcat(str_x_unuse_xz_oppostie+'=[];'));
+        str_z_unuse_xz_oppostie=strcat('RIS_z_unuse_xz_oppostie_'+string(i)+'_'+string(j));
+        eval(strcat(str_z_unuse_xz_oppostie+'=[];'));
+        
         yd = yd_save(j);
         coor_PD = [xd,yd,hd].';
         p_LoS = pt*channel_gain_LoS(coor_led,coor_PD,angle_led,angle_PD,phi_semi,A_PD,f,xi_fov,T);        
@@ -75,6 +88,9 @@ for i = 1:length(xd_save)
             for jj = 1:l
                 coor_RIS = [xr+wm/2+(jj-1)*(wm+delta_wm), 0, zr+hm/2+(ii-1)*(hm+delta_hm)].';
                 angle_RIS = findReflect_angle_xz(coor_led,coor_PD,coor_RIS);
+
+                coor_RIS_xz_oppostie = [xr+wm/2+(jj-1)*(wm+delta_wm), 8, zr+hm/2+(ii-1)*(hm+delta_hm)].';
+                angle_RIS_xz_oppostie = findReflect_angle_xz_oppostie(coor_led,coor_PD,coor_RIS_xz_oppostie);
                 if all((angle_RIS > 0) & (angle_RIS < pi))
                     coor_reflect = findReflect_point(coor_led,coor_PD,coor_RIS,angle_RIS,wm,hm);
                     if all(abs(coor_reflect-coor_RIS)<1e-7)
@@ -103,6 +119,37 @@ for i = 1:length(xd_save)
                     eval(strcat(str_x_unuse,'=[',str_x_unuse,','+string(xr+wm/2+(jj-1)*(wm+delta_wm))+'];'));
                     eval(strcat(str_z_unuse,'=[',str_z_unuse,','+string(zr+hm/2+(ii-1)*(hm+delta_hm))+'];'));
                 end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% _xz_oppostie %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                if (angle_RIS_xz_oppostie(1) > 0) && (angle_RIS_xz_oppostie(1) < pi) && (angle_RIS_xz_oppostie(2) > -pi) && (angle_RIS_xz_oppostie(2) < 0)
+                    coor_reflect_xz_oppostie = findReflect_point(coor_led,coor_PD,coor_RIS_xz_oppostie,angle_RIS_xz_oppostie,wm,hm);
+                    if all(abs(coor_reflect_xz_oppostie-coor_RIS_xz_oppostie)<1e-7)
+                        p_NLoS_xz_oppostie = pt*channel_gain_NLoS_mi(coor_led,coor_PD,coor_reflect_xz_oppostie,angle_led,angle_PD,phi_semi,A_PD,f,xi_fov,T,rho_mi);
+                        diff_tmp_xz_oppostie = p_LoS/p_NLoS_xz_oppostie;
+                        eval(strcat(str_diff_xz_oppostie+'('+string(ii)+','+string(jj)+')'+'='+string(diff_tmp_xz_oppostie)+';'));
+                        p_NLoS_singlePD = p_NLoS_singlePD + p_NLoS_xz_oppostie;
+                        if diff_tmp_xz_oppostie == Inf
+                            eval(strcat(str_x_unuse_xz_oppostie,'=[',str_x_unuse_xz_oppostie,','+string(xr+wm/2+(jj-1)*(wm+delta_wm))+'];'));
+                            eval(strcat(str_z_unuse_xz_oppostie,'=[',str_z_unuse_xz_oppostie,','+string(zr+hm/2+(ii-1)*(hm+delta_hm))+'];'));
+                        else
+                            eval(strcat(str_x_use_xz_oppostie,'=[',str_x_use_xz_oppostie,','+string(xr+wm/2+(jj-1)*(wm+delta_wm))+'];'));
+                            eval(strcat(str_z_use_xz_oppostie,'=[',str_z_use_xz_oppostie,','+string(zr+hm/2+(ii-1)*(hm+delta_hm))+'];'));                            
+                        end                       
+                    else
+                        diff_tmp_xz_oppostie = NaN;
+                        fprintf("NaN happen in xz oppostie wall, i=%d,j=%d,ii=%d,jj=%d \n",i,j,ii,jj);
+                        eval(strcat(str_diff_xz_oppostie+'('+string(ii)+','+string(jj)+')'+'=NaN;'));
+                        eval(strcat(str_x_unuse_xz_oppostie,'=[',str_x_unuse_xz_oppostie,','+string(xr+wm/2+(jj-1)*(wm+delta_wm))+'];'));
+                        eval(strcat(str_z_unuse_xz_oppostie,'=[',str_z_unuse_xz_oppostie,','+string(zr+hm/2+(ii-1)*(hm+delta_hm))+'];'));
+                    end                    
+                else
+                    diff_tmp_xz_oppostie = NaN;
+                    fprintf("NaN happen in yz wall, i=%d,j=%d,ii=%d,jj=%d \n",i,j,ii,jj);
+                    eval(strcat(str_diff_xz_oppostie+'('+string(ii)+','+string(jj)+')'+'=NaN;'));
+                    eval(strcat(str_x_unuse_xz_oppostie,'=[',str_x_unuse_xz_oppostie,','+string(xr+wm/2+(jj-1)*(wm+delta_wm))+'];'));
+                    eval(strcat(str_z_unuse_xz_oppostie,'=[',str_z_unuse_xz_oppostie,','+string(zr+hm/2+(ii-1)*(hm+delta_hm))+'];'));
+                end
+
+                
             end
         end
 
@@ -112,7 +159,6 @@ for i = 1:length(xd_save)
         rate_LoS_save = [rate_LoS_save rate_LoS];
         rate_total_save = [rate_total_save rate_total];
         total_diff(i,j)=p_LoS/p_NLoS_singlePD;
-
     end
 end
 total_diff = total_diff.';
@@ -145,7 +191,7 @@ Z_NLoS_power = reshape(p_NLoS_save,length(yd_save),length(xd_save));
 % ylabel('Y');
 % zlabel('NLOS功率');
 % title('NLOS功率');
-
+% 
 % figure
 % contourf(X, Y, Z_NLoS_power, 6);
 % colorbar;
@@ -319,58 +365,129 @@ ylabel('Y');
 title("服务分布图")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure
-eval(strcat('X_use = RIS_x_use_'+string(xd_for_plot)+'_'+string(zd_for_plot),';'));
-eval(strcat('Z_use = RIS_z_use_'+string(xd_for_plot)+'_'+string(zd_for_plot),';'));
-plot(X_use,Z_use,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
+eval(strcat('X_use_xz = RIS_x_use_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+eval(strcat('Z_use_xz = RIS_z_use_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+plot(X_use_xz,Z_use_xz,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
 hold on
-eval(strcat('X_unuse = RIS_x_unuse_'+string(xd_for_plot)+'_'+string(zd_for_plot),';'));
-eval(strcat('Z_unuse = RIS_z_unuse_'+string(xd_for_plot)+'_'+string(zd_for_plot),';'));
-plot(X_unuse,Z_unuse,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
+eval(strcat('X_unuse_xz = RIS_x_unuse_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+eval(strcat('Z_unuse_xz = RIS_z_unuse_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+plot(X_unuse_xz,Z_unuse_xz,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
 xlim([0,8])
 ylim([1,3])
 xlabel('X');
 ylabel('Z');
 title("XZ wall RIS分布图")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure
+eval(strcat('Y_use_xz_oppostie = RIS_x_use_xz_oppostie_'+string(xd_for_plot_xz_oppostie)+'_'+string(yd_for_plot_xz_oppostie),';'));
+eval(strcat('Z_use_xz_oppostie = RIS_z_use_xz_oppostie_'+string(xd_for_plot_xz_oppostie)+'_'+string(yd_for_plot_xz_oppostie),';'));
+plot(Y_use_xz_oppostie,Z_use_xz_oppostie,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
+hold on
+eval(strcat('Y_unuse_xz_oppostie = RIS_x_unuse_xz_oppostie_'+string(xd_for_plot_xz_oppostie)+'_'+string(yd_for_plot_xz_oppostie),';'));
+eval(strcat('Z_unuse_xz_oppostie = RIS_z_unuse_xz_oppostie_'+string(xd_for_plot_xz_oppostie)+'_'+string(yd_for_plot_xz_oppostie),';'));
+plot(Y_unuse_xz_oppostie,Z_unuse_xz_oppostie,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
+xlim([0,8])
+ylim([1,3])
+xlabel('Y');
+ylabel('Z');
+title("XZ oppostie wall RIS分布图")
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
 globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
 globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
 
 subplot(2, 1, 1);
+contourf(X, Y, Z_total_power);
+caxis([globalMin globalMax]);
+colorbar('location', 'EastOutside');
+xlabel('X');
+ylabel('Y');
+title('功率总和');
+
+subplot(2, 1, 2);
+contourf(X, Y, Z_LoS_power);
+caxis([globalMin globalMax]);
+colorbar('location', 'EastOutside');
+xlabel('X');
+ylabel('Y');
+title('LOS功率');
+colormap(jet);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure;
+globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
+globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
+
+subplot(2, 1, 1);
+[C,h]=contour(X, Y, Z_total_power);
+clabel(C,h)
+xlabel('X');
+ylabel('Y');
+title('irs分布在对面两面墙,功率总和');
+
+subplot(2, 1, 2);
 [C,h]=contour(X, Y, Z_LoS_power);
 clabel(C,h)
 xlabel('X');
 ylabel('Y');
 title('LOS功率');
-xlim([1,7])
-ylim([1,7])
-hold on
-
-subplot(2, 1, 2);
-[C,h]=contour(X, Y, Z_total_power);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('功率总和');
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
 globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
 globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
 
 subplot(2, 1, 1);
+contourf(X, Y, Z_total_rate);
+caxis([globalMin globalMax]);
+colorbar('location', 'EastOutside');
+xlabel('X');
+ylabel('Y');
+title('存在NLoS径时的最低速率');
+
+subplot(2, 1, 2);
+contourf(X, Y, Z_LoS_rate);
+caxis([globalMin globalMax]);
+colorbar('location', 'EastOutside');
+xlabel('X');
+ylabel('Y');
+title('只有LoS径时的最低速率');
+colormap(jet);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure;
+globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
+globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
+
+subplot(2, 1, 1);
+[C,h]=contour(X, Y, Z_total_rate);
+clabel(C,h)
+xlabel('X');
+ylabel('Y');
+title('irs分布在对面两面墙,存在NLoS径时的最低速率');
+
+subplot(2, 1, 2);
 [C,h]=contour(X, Y, Z_LoS_rate);
 clabel(C,h)
 xlabel('X');
 ylabel('Y');
 title('只有LoS径时的最低速率');
-
-subplot(2, 1, 2);
-[C,h]=contour(X, Y, Z_total_rate);
-clabel(C,h)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure;
+trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_LoS_rate(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
+hold on
+trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_total_rate(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
 xlabel('X');
 ylabel('Y');
-title('存在NLoS径时的最低速率');
+title('IRS对最低速率的提升');
+colormap(jet);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure;
+trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_LoS_power(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
+hold on
+trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_total_power(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
+xlabel('X');
+ylabel('Y');
+title('IRS对功率的提升');
+colormap(jet);
+
 
 
 
