@@ -250,36 +250,74 @@ globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
 globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
 
 subplot(2, 1, 1);
-[C,h]=contour(X, Y, Z_total_power);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('irs分布在相邻两面墙,功率总和');
-
-subplot(2, 1, 2);
 [C,h]=contour(X, Y, Z_LoS_power,3);
 clabel(C,h)
 xlabel('X');
 ylabel('Y');
 title('LOS功率');
+xlim([1,7])
+ylim([1,7])
+hold on
+drawarrow([6,5],[6.28,5],'red','-','arrow',1.3)
+text(6.29,5,'X')
+drawarrow([6,5],[6,6.6],'red','-','arrow',1.3)
+text(5.96,6.5,'Y')
+drawarrow([6,5],[6.18,6.2],'red','-','arrow',1.3)
+text(6.18,6.2,'Z')
+drawarrow([6,5],[6+0.25*cos(angle_PD(2)),5+0.8*sin(angle_PD(2))],'blue','-','arrow',1.3)
+text(6.01+0.25*cos(angle_PD(2))+0.005,5+0.8*sin(angle_PD(2)),'n_{PD}=[1,-1,1]')
+drawarrow([6+0.25*cos(angle_PD(2)),5+0.8*sin(angle_PD(2))],[6+0.25*cos(angle_PD(2)),5.45],'black',':','line',2)
+drawarrow([6,5],[6+0.25*cos(angle_PD(2)),5.45],'black',':','arrow',2)
+text(6.01+0.25*cos(angle_PD(2)),5.45,'n_{xz}=[1,0,1]')
+drawarrow([6,5],[6,4.2],'black',':','line',2)
+drawarrow([6,5+0.8*sin(angle_PD(2))],[6+0.25*cos(angle_PD(2)),5+0.8*sin(angle_PD(2))],'black',':','line',2)
+text(5.95,5+0.8*sin(angle_PD(2)),'-1')
+plot(coor_led(1),coor_led(2),'o','MarkerSize',6, 'MarkerFaceColor','red','LineWidth',1);
+text(coor_led(1),coor_led(2)+0.2,'LED')
+
+subplot(2, 1, 2);
+[C,h]=contour(X, Y, Z_total_power);
+clabel(C,h)
+xlabel('X');
+ylabel('Y');
+title('irs分布在相邻两面墙,功率总和');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
 globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
 globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
 
 subplot(2, 1, 1);
-[C,h]=contour(X, Y, Z_total_rate);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('irs分布在相邻两面墙,存在NLoS径时的最低速率');
-
-subplot(2, 1, 2);
 [C,h]=contour(X, Y, Z_LoS_rate,3);
 clabel(C,h)
 xlabel('X');
 ylabel('Y');
 title('只有LoS径时的最低速率');
+xlim([1,7])
+ylim([1,7])
+hold on
+drawarrow([6,5],[6.28,5],'red','-','arrow',1.3)
+text(6.29,5,'X')
+drawarrow([6,5],[6,6.6],'red','-','arrow',1.3)
+text(5.96,6.5,'Y')
+drawarrow([6,5],[6.18,6.2],'red','-','arrow',1.3)
+text(6.18,6.2,'Z')
+drawarrow([6,5],[6+0.25*cos(angle_PD(2)),5+0.8*sin(angle_PD(2))],'blue','-','arrow',1.3)
+text(6.01+0.25*cos(angle_PD(2))+0.005,5+0.8*sin(angle_PD(2)),'n_{PD}=[1,-1,1]')
+drawarrow([6+0.25*cos(angle_PD(2)),5+0.8*sin(angle_PD(2))],[6+0.25*cos(angle_PD(2)),5.45],'black',':','line',2)
+drawarrow([6,5],[6+0.25*cos(angle_PD(2)),5.45],'black',':','arrow',2)
+text(6.01+0.25*cos(angle_PD(2)),5.45,'n_{xz}=[1,0,1]')
+drawarrow([6,5],[6,4.2],'black',':','line',2)
+drawarrow([6,5+0.8*sin(angle_PD(2))],[6+0.25*cos(angle_PD(2)),5+0.8*sin(angle_PD(2))],'black',':','line',2)
+text(5.95,5+0.8*sin(angle_PD(2)),'-1')
+plot(coor_led(1),coor_led(2),'o','MarkerSize',6, 'MarkerFaceColor','red','LineWidth',1);
+text(coor_led(1),coor_led(2)+0.2,'LED')
+
+subplot(2, 1, 2);
+[C,h]=contour(X, Y, Z_total_rate);
+clabel(C,h)
+xlabel('X');
+ylabel('Y');
+title('irs分布在相邻两面墙,存在NLoS径时的最低速率');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
 globalMin = min(min(Z_NLoS_power_xz(:)), min(Z_NLoS_power_yz(:)));

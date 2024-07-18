@@ -1,11 +1,11 @@
-function drawarrow(x,y,color,lineType,ax)
-    switch nargin
-        case 3
-            lineType='arrow';
+function drawarrow(x,y,color,lineStyle,lineType,lineWidth,ax)
+    % switch nargin
+    %     case 4
+    %         lineType='arrow';
+    %         ax=gca;
+    %     case 5
             ax=gca;
-        case 4
-            ax=gca;
-    end
+    % end
     % 调整坐标大小以适应箭头长度
     xlim=ax.XLim;
     ylim=ax.YLim;
@@ -27,6 +27,6 @@ function drawarrow(x,y,color,lineType,ax)
     x=x+orig_pos;y=y+orig_pos;
     ar=annotation(lineType,[x(1),y(1)],[x(2),y(2)]);
     ar.Color=color;
-    % ar.LineStyle='-.';
-    ar.LineWidth=1;
+    ar.LineStyle=lineStyle;  
+    ar.LineWidth=lineWidth;
 end

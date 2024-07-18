@@ -1,6 +1,5 @@
 clear
 close all
-% pi = sym(pi);
 phi_semi = 60/180*pi;
 xi_fov = 85/180*pi;
 f = 1.5;
