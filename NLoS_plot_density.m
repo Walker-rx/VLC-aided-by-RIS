@@ -30,6 +30,7 @@ total_length = 7-xr;  total_hight = 2.5-zr;
 max_k = total_hight/hm;    max_l=total_length/wm;
 
 k = 8; l = 20;
+% k = 16; l = 40;
 delta_wm = round( (((100*total_length)-l*100*wm)/(l-1))*10 )/10 /100;
 delta_hm = round( (((100*total_hight)-k*100*wm)/(k-1))*10 )/10 /100;
 if delta_wm <1/100
@@ -45,7 +46,7 @@ RIS_z = zr+hm/2:(hm+delta_hm):zr+hm/2+(k-1)*(hm+delta_hm);
 
 xd_save = 1:0.5:7;
 yd_save = 1:0.5:7;
-xd_for_plot = 9;  zd_for_plot = 9;
+xd_for_plot = 1;  zd_for_plot = 5;
 p_LoS_save = [];
 p_NLoS_save = [];
 rate_LoS_save = [];
@@ -98,8 +99,8 @@ for i = 1:length(xd_save)
                     end                    
                 else
                     diff_tmp = NaN;
-                    fprintf("NaN happen in i=%d,j=%d,ii=%d,jj=%d",i,j,ii,jj);
-                    eval(strcat(str_diff+'('+string(ii)+','+string(jj)+')'+'='+string(diff_tmp)));
+                    fprintf("NaN happen in i=%d,j=%d,ii=%d,jj=%d \n",i,j,ii,jj);
+                    eval(strcat(str_diff+'('+string(ii)+','+string(jj)+')'+'=NaN;'));
                     eval(strcat(str_x_unuse,'=[',str_x_unuse,','+string(xr+wm/2+(jj-1)*(wm+delta_wm))+'];'));
                     eval(strcat(str_z_unuse,'=[',str_z_unuse,','+string(zr+hm/2+(ii-1)*(hm+delta_hm))+'];'));
                 end
@@ -203,13 +204,13 @@ Z_diff = total_diff;
 % zlabel('LOS功率/NLOS功率');
 % title('LOS功率/NLOS功率');
 
-figure
-contourf(X, Y, Z_diff, 6);
-colorbar;
-
-xlabel('X');
-ylabel('Y');
-title('LOS功率/NLOS功率');
+% figure
+% contourf(X, Y, Z_diff, 6);
+% colorbar;
+% 
+% xlabel('X');
+% ylabel('Y');
+% title('LOS功率/NLOS功率');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Z_diff_inverse = 1./total_diff;
 % figure;
@@ -339,9 +340,11 @@ globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
 subplot(2, 1, 1);
 [C,h]=contour(X, Y, Z_LoS_power);
 clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('LOS功率');
+xlabel('房间地面的X坐标');
+ylabel('房间地面的Y坐标');
+grid on
+set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
+title('无IRS辅助时接收端功率(W)');
 xlim([1,7])
 ylim([1,7])
 hold on
@@ -349,9 +352,11 @@ hold on
 subplot(2, 1, 2);
 [C,h]=contour(X, Y, Z_total_power);
 clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('功率总和');
+xlabel('房间地面的X坐标');
+ylabel('房间地面的Y坐标');
+grid on
+set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
+title('存在IRS辅助时接收端功率(W)');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
@@ -361,16 +366,20 @@ globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
 subplot(2, 1, 1);
 [C,h]=contour(X, Y, Z_LoS_rate);
 clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('只有LoS径时的最低速率');
+xlabel('房间地面的X坐标');
+ylabel('房间地面的Y坐标');
+grid on
+set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
+title('无IRS辅助时的速率下限(bit/s)');
 
 subplot(2, 1, 2);
 [C,h]=contour(X, Y, Z_total_rate);
 clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('存在NLoS径时的最低速率');
+xlabel('房间地面的X坐标');
+ylabel('房间地面的Y坐标');
+grid on
+set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
+title('存在IRS辅助时的速率下限(bit/s)');
 
 
 

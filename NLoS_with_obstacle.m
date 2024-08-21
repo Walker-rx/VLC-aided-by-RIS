@@ -45,8 +45,8 @@ RIS_z = zr+hm/2:(hm+delta_hm):zr+hm/2+(k-1)*(hm+delta_hm);
 
 obstacle_length = 2.5;
 coor_obstacle = [3,3,1];
-% angle_obstacle = [pi 0];
-angle_obstacle = [pi/4 pi/4];
+angle_obstacle = [pi 0];
+% angle_obstacle = [pi/4 pi/4];
 
 xd_save = 1:0.5:7;
 yd_save = 1:0.5:7;
