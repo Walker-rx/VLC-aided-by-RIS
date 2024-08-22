@@ -29,7 +29,7 @@ xr = 1;   zr = 1.5;
 total_length = 7-xr;  total_hight = 2.5-zr;
 max_k = total_hight/hm;    max_l=total_length/wm;
 
-k = 8; l = 20;
+k = 8; l = 40;
 delta_wm = round( (((100*total_length)-l*100*wm)/(l-1))*10 )/10 /100;
 delta_hm = round( (((100*total_hight)-k*100*wm)/(k-1))*10 )/10 /100;
 if delta_wm <1/100
@@ -44,7 +44,7 @@ RIS_x = xr+wm/2:(wm+delta_wm):xr+wm/2+(l-1)*(wm+delta_wm);
 RIS_z = zr+hm/2:(hm+delta_hm):zr+hm/2+(k-1)*(hm+delta_hm);
 
 obstacle_length = 2.5;
-coor_obstacle = [3,3,1];
+coor_obstacle = [3,3.5,1];
 angle_obstacle = [pi 0];
 % angle_obstacle = [pi/4 pi/4];
 
@@ -348,26 +348,26 @@ xlabel('X');
 ylabel('Z');
 title("XZ wall RIS分布图")
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure;
-globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
-globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
-
-subplot(2, 1, 1);
-contourf(X, Y, Z_total_power);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('功率总和');
-
-subplot(2, 1, 2);
-contourf(X, Y, Z_LoS_power);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('LOS功率');
-colormap(jet);
+% figure;
+% globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
+% globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
+% 
+% subplot(2, 1, 1);
+% contourf(X, Y, Z_total_power);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('功率总和');
+% 
+% subplot(2, 1, 2);
+% contourf(X, Y, Z_LoS_power);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('LOS功率');
+% colormap(jet);
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
 globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
@@ -387,26 +387,26 @@ xlabel('X');
 ylabel('Y');
 title('LOS功率');
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure;
-globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
-globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
-
-subplot(2, 1, 1);
-contourf(X, Y, Z_total_rate);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('存在NLoS径时的最低速率');
-
-subplot(2, 1, 2);
-contourf(X, Y, Z_LoS_rate);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('只有LoS径时的最低速率');
-colormap(jet);
+% figure;
+% globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
+% globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
+% 
+% subplot(2, 1, 1);
+% contourf(X, Y, Z_total_rate);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('存在NLoS径时的最低速率');
+% 
+% subplot(2, 1, 2);
+% contourf(X, Y, Z_LoS_rate);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('只有LoS径时的最低速率');
+% colormap(jet);
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
 globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));

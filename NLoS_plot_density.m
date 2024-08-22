@@ -337,7 +337,6 @@ figure;
 globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
 globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
 
-subplot(2, 1, 1);
 [C,h]=contour(X, Y, Z_LoS_power);
 clabel(C,h)
 xlabel('房间地面的X坐标');
@@ -347,9 +346,8 @@ set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
 title('无IRS辅助时接收端功率(W)');
 xlim([1,7])
 ylim([1,7])
-hold on
 
-subplot(2, 1, 2);
+figure;
 [C,h]=contour(X, Y, Z_total_power);
 clabel(C,h)
 xlabel('房间地面的X坐标');
@@ -363,7 +361,6 @@ figure;
 globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
 globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
 
-subplot(2, 1, 1);
 [C,h]=contour(X, Y, Z_LoS_rate);
 clabel(C,h)
 xlabel('房间地面的X坐标');
@@ -372,15 +369,15 @@ grid on
 set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
 title('无IRS辅助时的速率下限(bit/s)');
 
-subplot(2, 1, 2);
-[C,h]=contour(X, Y, Z_total_rate);
-clabel(C,h)
+figure;
+[C,h]=contour(X, Y, Z_total_rate,[35000,25000,15000,10000,5000,3500,2000,1000,500]);
+clabel(C,h,'FontSize',16);
 xlabel('房间地面的X坐标');
 ylabel('房间地面的Y坐标');
 grid on
 set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
-title('存在IRS辅助时的速率下限(bit/s)');
-
+title('存在IRS辅助时的速率下界(bit/s)');
+set(gca,'FontSize',25);
 
 
 

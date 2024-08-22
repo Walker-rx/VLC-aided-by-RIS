@@ -41,13 +41,13 @@ rate_NLoS_save = [];
 p_LoS = pt*channel_gain_LoS(coor_led,coor_PD,angle_led,angle_PD,phi_semi,A_PD,f,xi_fov,T); 
 rate_LoS = minrate(B,pt,q,R_pd,N,p_LoS/pt);
 % for k = 2:2:40
-for k = 20:20:1100
+for k = 300:10:500
     hm = total_hight/k;
     % if mod(k,10)==0
         fprintf('k=%d\n',k);
     % end
     % for l = 2:4:38
-    for l = 1000:20:1100
+    for l = 200:10:300
         wm = total_length/l;
         area = hm*wm;       
         num = k*l;
@@ -99,12 +99,12 @@ sorted_p_NLoS = p_NLoS_save(idx);
 sorted_rate_NLoS = rate_NLoS_save(idx);
 
 figure
-plot(sorted_num,sorted_p_NLoS)
+plot(sorted_num,fliplr(sorted_p_NLoS))
 % hold on
 % plot(sorted_num,ones(1,length(sorted_num)).*p_LoS)
 title('NLoS径功率随密度的变化')
 figure
-plot(sorted_num,sorted_rate_NLoS)
+plot(sorted_num,fliplr(sorted_rate_NLoS))
 % hold on
 % plot(sorted_num,ones(1,length(sorted_num)).*rate_LoS)
 title('NLoS径速率随密度的变化')

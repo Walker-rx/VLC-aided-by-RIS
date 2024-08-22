@@ -19,8 +19,8 @@ coor_led = [xs,ys,zs].';
 angle_led = [led_polar,led_azi];
 
 wm = 4/100; hm = 4/100; delta_wm = 1/2*wm; delta_hm = 1/2*hm;
-total_length = 3; total_hight = 1.5;
-xr_max = 3:0.2:8; zr_max = 1.5:0.1:3;
+total_length = 6; total_hight = 1;
+xr_max = 6:0.2:8; zr_max = 1:0.1:3;
 max_k = total_hight/hm;    max_l=total_length/wm;
 
 k = 8; l = 20;
@@ -35,6 +35,7 @@ if delta_hm <1/100
     k = floor((total_hight-hm)/(hm+delta_hm))+1;
 end
 
+% obstacle_length = 2.5;
 obstacle_length = 2.5;
 coor_obstacle = [3,3,1];
 % angle_obstacle = [pi 0];
@@ -43,7 +44,7 @@ angle_obstacle = [pi/4 pi/4];
 xd_save = 1:0.5:7;
 yd_save = 1:0.5:7;
 % xd_for_plot = 9;  zd_for_plot = 9;
-xd_for_count = 8;  yd_for_count = 2;
+xd_for_count = 6;  yd_for_count = 6;
 hd = 3;
 pd_polar = pi/3+pi/2; pd_zai = pi/3;
 % pd_polar = pi; pd_zai =0;
@@ -125,41 +126,40 @@ for i = 1:length(xr_max)
     end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[X, Y] = meshgrid(unique(xr_max-total_length), unique(zr_max-total_hight));
+[X, Y] = meshgrid(unique(xr_max-total_length/2), unique(zr_max-total_hight/2));
 Z_NLoS_power = reshape(p_NLoS_save,length(zr_max),length(xr_max));
 figure;
-trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_NLoS_power(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
-colorbar;  % 添加颜色条
-
-% 设置坐标轴标签
-xlabel('X');
-ylabel('Y');
-zlabel('NLOS功率');
-title('NLOS功率');
-
-figure
-contour(X, Y, Z_NLoS_power, 6);
-colorbar;
-
-xlabel('X');
-ylabel('Z');
-title('NLOS功率');
+% trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_NLoS_power(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
+% colorbar;  % 添加颜色条
+% 
+% % 设置坐标轴标签
+% xlabel('X');
+% ylabel('Y');
+% zlabel('NLOS功率');
+% title('NLOS功率');
+% 
+% figure
+% contour(X, Y, Z_NLoS_power, 6);
+% colorbar;
+% 
+% xlabel('X');
+% ylabel('Z');
+% title('NLOS功率');
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Z_total_rate = reshape(rate_total_save,length(zr_max),length(xr_max));
-figure;
-trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_total_rate(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
-colorbar;  % 添加颜色条
-
-% 设置坐标轴标签
-xlabel('X');
-ylabel('Z');
-zlabel('NLOS速率');
-title('NLOS速率');
+% figure;
+% trisurf(delaunay(X(:), Y(:)), X(:), Y(:), Z_total_rate(:), 'FaceColor', 'interp', 'EdgeColor', 'k');
+% colorbar;  % 添加颜色条
+% 
+% % 设置坐标轴标签
+% xlabel('X');
+% ylabel('Z');
+% zlabel('NLOS速率');
+% title('NLOS速率');
 
 figure
-contour(X, Y, Z_total_rate, 6);
-colorbar;
-
+[C,h]=contour(X, Y, Z_total_rate, 6);
+clabel(C,h)
 xlabel('X');
 ylabel('Z');
 title('NLOS速率');

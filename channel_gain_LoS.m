@@ -29,34 +29,6 @@ function h_gain_LoS = channel_gain_LoS(source_point,PD_point,source_angle,PD_ang
         h_gain_LoS = (m+1) *A_PD *G *T *cos(phi)^m *cos_xi /(2*pi*d_LoS^2);
     end
 
-% %%%%%%%%%%%%%%%%%%%%%%    Mirror NLoS    %%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%% dk_a: link distance for AP-Mirror      dk_u:  link distance for Mirror-user
-% %%%%%%% phi_ka: radiation angle for the path from the AP to Mirror       xi_ka: incident angle for the path from AP to Mirror
-% %%%%%%% phi_uk: angle of irradiance for the path from Mirror towards user u
-% %%%%%%% xi_uk: incident angle of the reflected signal from Mirror to user u
-% %%%%%%% gamma:  yaw angles of Mirror            omega: roll angles of Mirror
-% %%%%%%% 不止cos(phi),cos(xi)也可以用坐标表示？
-%     gamma = Mirror_angle(2);  omega = Mirror_angle(1);
-%     incident_normal = [xa-reflect_point(1) ya-reflect_point(2) za-reflect_point(3)];
-%     emerging_normal = [xu-reflect_point(1) yu-reflect_point(2) zu-reflect_point(3)];
-%     Mirror_normal = [cos(omega)*sin(gamma) cos(omega)*cos(gamma) sin(omega)];   
-%     phi_ka = acos(dot(-incident_normal,AP_normal)/(norm(-incident_normal)*norm(AP_normal)));
-%     xi_ka = acos(dot(incident_normal,Mirror_normal)/(norm(incident_normal)*norm(Mirror_normal)));
-%     phi_uk = acos(dot(emerging_normal,Mirror_normal)/(norm(emerging_normal)*norm(Mirror_normal)));
-%     xi_uk = acos(dot(-emerging_normal,U_normal)/(norm(-emerging_normal)*norm(U_normal)));
-% 
-%     dk_a = sqrt((xa-xk)^2+(ya-yk)^2+(za-zk)^2);
-%     du_k = sqrt((xk-xu)^2+(yk-yu)^2+(zk-zu)^2);
-%     cos_phi_uk = ((xk-xu)/du_k)*sin(gamma)*cos(omega) +((yk-yu)/du_k)*cos(gamma)*cos(omega) +((zk-zu)/du_k)*sin(omega);
-%     if xi_uk> xi_fov
-%         H_NLoS_Mirror = 0;
-%     else
-%         H_NLoS_Mirror = (m+1) *A_PD *Ak *G *T *cos(phi_ka)^m *cos(xi_ka) *cos_phi_uk *cos(xi_uk) /(2*pi^2*dk_a^2*du_k^2);
-%     end
-%     H_NLoS_Mirror = H_NLoS_Mirror*rho;
-% 
-%     h_gain_LoS = H_Los;
-
 end
 
 

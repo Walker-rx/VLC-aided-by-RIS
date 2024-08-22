@@ -44,14 +44,14 @@ RIS_x = xr+wm/2:(wm+delta_wm):xr+wm/2+(l-1)*(wm+delta_wm);
 RIS_z = zr+hm/2:(hm+delta_hm):zr+hm/2+(k-1)*(hm+delta_hm);
 
 obstacle_length = 2.5;
-coor_obstacle = [3,4,1];
+coor_obstacle = [3,3.5,1];
 angle_obstacle = [pi 0];
 % angle_obstacle = [pi/4 pi/4];
 
 xd_save = 1:0.5:7;
 yd_save = 1:0.5:7;
 xd_for_plot = 9;  yd_for_plot = 9;
-xd_for_plot_yz = 9;  yd_for_plot_yz = 9;
+xd_for_plot_yz = 5;  yd_for_plot_yz = 5;
 p_LoS_save = [];
 p_NLoS_save_xz = [];
 p_NLoS_save_yz = [];
@@ -288,13 +288,13 @@ Z_diff = total_diff;
 % zlabel('LOS功率/NLOS功率');
 % title('LOS功率/NLOS功率');
 
-figure
-contourf(X, Y, Z_diff, 6);
-colorbar;
-
-xlabel('X');
-ylabel('Y');
-title('LOS功率/NLOS功率');
+% figure
+% contourf(X, Y, Z_diff, 6);
+% colorbar;
+% 
+% xlabel('X');
+% ylabel('Y');
+% title('LOS功率/NLOS功率');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Z_diff_inverse = 1./total_diff;
 % figure;
@@ -376,50 +376,50 @@ Z_total_rate = reshape(rate_total_save,length(yd_save),length(xd_save));
 % ylabel('Y');
 % title('存在NLoS径时的最低速率');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure
-if ~isempty(LoS_serve_x)
-    plot(LoS_serve_x,LoS_serve_y,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
-    hold on
-    plot(Both_serve_x,Both_serve_y,'go', 'MarkerFaceColor', 'green', 'MarkerSize', 8)
-    if ~isempty(NLoS_serve_x)
-        hold on
-        plot(NLoS_serve_x,NLoS_serve_y,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
-        legend('LoS Service', 'Both Services', 'NLoS Service');
-    else
-        legend('LoS Service', 'Both Services');
-    end
-else
-    if ~isempty(NLoS_serve_x)
-        plot(NLoS_serve_x,NLoS_serve_y,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
-        hold on
-        plot(Both_serve_x,Both_serve_y,'go', 'MarkerFaceColor', 'green', 'MarkerSize', 8)
-        legend('NLoS Service', 'Both Services');
-    else
-        plot(Both_serve_x,Both_serve_y,'go', 'MarkerFaceColor', 'green', 'MarkerSize', 8)
-        legend('Both Services');
-    end
-end
+% figure
+% if ~isempty(LoS_serve_x)
+%     plot(LoS_serve_x,LoS_serve_y,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
+%     hold on
+%     plot(Both_serve_x,Both_serve_y,'go', 'MarkerFaceColor', 'green', 'MarkerSize', 8)
+%     if ~isempty(NLoS_serve_x)
+%         hold on
+%         plot(NLoS_serve_x,NLoS_serve_y,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
+%         legend('LoS Service', 'Both Services', 'NLoS Service');
+%     else
+%         legend('LoS Service', 'Both Services');
+%     end
+% else
+%     if ~isempty(NLoS_serve_x)
+%         plot(NLoS_serve_x,NLoS_serve_y,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
+%         hold on
+%         plot(Both_serve_x,Both_serve_y,'go', 'MarkerFaceColor', 'green', 'MarkerSize', 8)
+%         legend('NLoS Service', 'Both Services');
+%     else
+%         plot(Both_serve_x,Both_serve_y,'go', 'MarkerFaceColor', 'green', 'MarkerSize', 8)
+%         legend('Both Services');
+%     end
+% end
 
 
-xlim([0,8])
-ylim([0,8])
-xlabel('X');
-ylabel('Y');
-title("服务分布图")
+% xlim([0,8])
+% ylim([0,8])
+% xlabel('X');
+% ylabel('Y');
+% title("服务分布图")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure
-eval(strcat('X_use_xz = RIS_x_use_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
-eval(strcat('Z_use_xz = RIS_z_use_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
-plot(X_use_xz,Z_use_xz,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
-hold on
-eval(strcat('X_unuse_xz = RIS_x_unuse_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
-eval(strcat('Z_unuse_xz = RIS_z_unuse_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
-plot(X_unuse_xz,Z_unuse_xz,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
-xlim([0,8])
-ylim([1,3])
-xlabel('X');
-ylabel('Z');
-title("XZ wall RIS分布图")
+% figure
+% eval(strcat('X_use_xz = RIS_x_use_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+% eval(strcat('Z_use_xz = RIS_z_use_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+% plot(X_use_xz,Z_use_xz,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
+% hold on
+% eval(strcat('X_unuse_xz = RIS_x_unuse_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+% eval(strcat('Z_unuse_xz = RIS_z_unuse_'+string(xd_for_plot)+'_'+string(yd_for_plot),';'));
+% plot(X_unuse_xz,Z_unuse_xz,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
+% xlim([0,8])
+% ylim([1,3])
+% xlabel('X');
+% ylabel('Z');
+% title("XZ wall RIS分布图")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure
 eval(strcat('Y_use_yz = RIS_y_use_yz_'+string(xd_for_plot_yz)+'_'+string(yd_for_plot_yz),';'));
@@ -428,72 +428,76 @@ plot(Y_use_yz,Z_use_yz,'ro', 'MarkerFaceColor', 'red', 'MarkerSize', 8)
 hold on
 eval(strcat('Y_unuse_yz = RIS_y_unuse_yz_'+string(xd_for_plot_yz)+'_'+string(yd_for_plot_yz),';'));
 eval(strcat('Z_unuse_yz = RIS_z_unuse_yz_'+string(xd_for_plot_yz)+'_'+string(yd_for_plot_yz),';'));
-plot(Y_unuse_yz,Z_unuse_yz,'bo', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
-xlim([0,8])
-ylim([1,3])
-xlabel('Y');
-ylabel('Z');
-title("YZ wall RIS分布图")
+plot(Y_unuse_yz,Z_unuse_yz,'b^', 'MarkerFaceColor', 'blue', 'MarkerSize', 8)
+legend('NloS径未被遮挡的IRS','NLoS径被遮挡的IRS')
+xlim([0.4,7.6])
+ylim([1.1,2.9])
+
+xlabel('房间的Y坐标');
+ylabel('房间的Z坐标');
+grid on
+set(gca,'GridLineStyle',':','GridColor','k','GridAlpha',1);
+set(gca,'FontSize',12)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure;
-globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
-globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
-
-subplot(2, 1, 1);
-contourf(X, Y, Z_total_power);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('功率总和');
-
-subplot(2, 1, 2);
-contourf(X, Y, Z_LoS_power);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('LOS功率');
-colormap(jet);
+% figure;
+% globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
+% globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
+% 
+% subplot(2, 1, 1);
+% contourf(X, Y, Z_total_power);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('功率总和');
+% 
+% subplot(2, 1, 2);
+% contourf(X, Y, Z_LoS_power);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('LOS功率');
+% colormap(jet);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure;
-globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
-globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
-
-subplot(2, 1, 1);
-[C,h]=contour(X, Y, Z_total_power);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('irs分布在相邻两面墙,功率总和');
-
-subplot(2, 1, 2);
-[C,h]=contour(X, Y, Z_LoS_power);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('LOS功率');
+% figure;
+% globalMin = min(min(Z_total_power(:)), min(Z_LoS_power(:)));
+% globalMax = max(max(Z_total_power(:)), max(Z_LoS_power(:)));
+% 
+% subplot(2, 1, 1);
+% [C,h]=contour(X, Y, Z_total_power);
+% clabel(C,h)
+% xlabel('X');
+% ylabel('Y');
+% title('irs分布在相邻两面墙,功率总和');
+% 
+% subplot(2, 1, 2);
+% [C,h]=contour(X, Y, Z_LoS_power);
+% clabel(C,h)
+% xlabel('X');
+% ylabel('Y');
+% title('LOS功率');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure;
-globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
-globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
-
-subplot(2, 1, 1);
-contourf(X, Y, Z_total_rate);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('存在NLoS径时的最低速率');
-
-subplot(2, 1, 2);
-contourf(X, Y, Z_LoS_rate);
-caxis([globalMin globalMax]);
-colorbar('location', 'EastOutside');
-xlabel('X');
-ylabel('Y');
-title('只有LoS径时的最低速率');
-colormap(jet);
+% figure;
+% globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
+% globalMax = max(max(Z_total_rate(:)), max(Z_LoS_rate(:)));
+% 
+% subplot(2, 1, 1);
+% contourf(X, Y, Z_total_rate);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('存在NLoS径时的最低速率');
+% 
+% subplot(2, 1, 2);
+% contourf(X, Y, Z_LoS_rate);
+% caxis([globalMin globalMax]);
+% colorbar('location', 'EastOutside');
+% xlabel('X');
+% ylabel('Y');
+% title('只有LoS径时的最低速率');
+% colormap(jet);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure;
 globalMin = min(min(Z_total_rate(:)), min(Z_LoS_rate(:)));
@@ -513,41 +517,41 @@ xlabel('X');
 ylabel('Y');
 title('只有LoS径时的最低速率');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure;
-globalMin = min(min(Z_NLoS_power_xz(:)), min(Z_NLoS_power_yz(:)));
-globalMax = max(max(Z_NLoS_power_xz(:)), max(Z_NLoS_power_yz(:)));
-
-subplot(2, 1, 1);
-[C,h]=contour(X, Y, Z_NLoS_power_xz);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('xz irs功率');
-
-subplot(2, 1, 2);
-[C,h]=contour(X, Y, Z_NLoS_power_yz);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('yz irs功率');
+% figure;
+% globalMin = min(min(Z_NLoS_power_xz(:)), min(Z_NLoS_power_yz(:)));
+% globalMax = max(max(Z_NLoS_power_xz(:)), max(Z_NLoS_power_yz(:)));
+% 
+% subplot(2, 1, 1);
+% [C,h]=contour(X, Y, Z_NLoS_power_xz);
+% clabel(C,h)
+% xlabel('X');
+% ylabel('Y');
+% title('xz irs功率');
+% 
+% subplot(2, 1, 2);
+% [C,h]=contour(X, Y, Z_NLoS_power_yz);
+% clabel(C,h)
+% xlabel('X');
+% ylabel('Y');
+% title('yz irs功率');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure;
-globalMin = min(min(Z_NLoS_rate_xz(:)), min(Z_NLoS_rate_yz(:)));
-globalMax = max(max(Z_NLoS_rate_xz(:)), max(Z_NLoS_rate_yz(:)));
-
-subplot(2, 1, 1);
-[C,h]=contour(X, Y, Z_NLoS_rate_xz);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('xz irs的最低速率');
-
-subplot(2, 1, 2);
-[C,h]=contour(X, Y, Z_NLoS_rate_yz);
-clabel(C,h)
-xlabel('X');
-ylabel('Y');
-title('yz irs的最低速率');
+% figure;
+% globalMin = min(min(Z_NLoS_rate_xz(:)), min(Z_NLoS_rate_yz(:)));
+% globalMax = max(max(Z_NLoS_rate_xz(:)), max(Z_NLoS_rate_yz(:)));
+% 
+% subplot(2, 1, 1);
+% [C,h]=contour(X, Y, Z_NLoS_rate_xz);
+% clabel(C,h)
+% xlabel('X');
+% ylabel('Y');
+% title('xz irs的最低速率');
+% 
+% subplot(2, 1, 2);
+% [C,h]=contour(X, Y, Z_NLoS_rate_yz);
+% clabel(C,h)
+% xlabel('X');
+% ylabel('Y');
+% title('yz irs的最低速率');
 
 
 
